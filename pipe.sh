@@ -15,6 +15,11 @@ composer_setup () {
       composer create-project --repository-url="$REPOSITORY_URL" "$MAGENTO_VERSION" /magento2 --no-install
       cd /magento2
       composer config repositories.local path $BITBUCKET_CLONE_DIR
+      if [ -z "${COMPOSER_PACKAGES}" ]; then
+          echo "COMPOSER_PACKAGES environment variable is not set - aborting"
+          exit 1
+      fi
+
       composer require $COMPOSER_PACKAGES "@dev" --no-update
   fi
 
